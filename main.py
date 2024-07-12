@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 TOKEN = 'YOUR_BOT_TOKEN'
 
 # List of authorized user IDs
-AUTH_LIST = [1045700254, 1189238402, 1532086965]  # Replace with actual authorized user IDs
+AUTH_LIST = [1045700254, 1189238402, 7169228651]  # Replace with actual authorized user IDs
 
 # Default deletion time (in seconds)
 DEFAULT_DELETE_TIME = 3600  # 1 hour
@@ -44,6 +44,7 @@ async def start(update: Update, context):
         "Hello there! I am the Deletion Bot.\n\n"
         "I automatically delete messages in group chats after a set time.\n"
         "Authorized users and group owners can change the deletion time using the /set_delete command.\n"
+        "Use /ping to check if I'm responsive.\n\n"
         "Use /admin_exclude to toggle admin message exclusion.\n\n"
         "If you're facing any difficulties, please contact @@iacbotsupport for support."
     )
@@ -150,6 +151,10 @@ async def send_restart_notifications(application):
         except Exception as e:
             logger.error(f"Error sending restart notification to chat {chat_id}: {e}")
 
+#Ping! 
+async def ping(update: Update, context):
+    await update.message.reply_text("Pong! I'm here and responsive cutie.")
+
 def main():
     application = Application.builder().token(TOKEN).build()
 
@@ -158,6 +163,7 @@ def main():
     application.add_handler(CommandHandler("set_delete", set_delete))
     application.add_handler(CommandHandler("admin_exclude", admin_exclude))
     application.add_handler(MessageHandler(filters.ALL & ~filters.COMMAND, handle_message))
+    application.add_handler(CommandHandler("ping", ping))
 
     # Send restart notifications
     application.create_task(send_restart_notifications(application))
