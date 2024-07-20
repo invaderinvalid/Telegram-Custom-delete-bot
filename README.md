@@ -1,1 +1,1 @@
-# Telegram-Custom-delete-bot
+# Custom Delete Bot
